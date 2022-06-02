@@ -24,20 +24,20 @@ def remove_noise(image):
 
 # thresholding
 def thresholding(image):
-    # return cv2.threshold(image, -20, 20, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+def adaptive_thresh(image):
     return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 8)
 
-# def more_thresh(image):
-#     return cv2.threshold(image,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-#
 
 img = get_grayscale(img)
 img = thresholding(img)
 img = remove_noise(img)
-kernel = np.ones((2000, 2000), np.uint8)
-erosion = cv2.erode(img,kernel)
-# img = more_thresh(img)
-# img = morph_it(img)
+# img = adaptive_thresh(img)
+
+# kernel = np.ones((1,1), np.uint8)
+# img = cv2.erode(img, kernel, iterations=1)
+
 cv2.imwrite('_fixed.jpg', img)
 # cv2.imwrite(z + ".jpg", img)
 text = pytesseract.image_to_string(img)

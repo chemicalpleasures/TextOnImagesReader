@@ -2,14 +2,14 @@ import cv2
 import os
 import pytesseract
 import pandas as pd
-#import easyocr
+import easyocr
 import openpyxl
 import glob
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 folder_dir = "SKY2339"
 window_name = "image"
-# reader = easyocr.Reader(['en'], gpu=True)
+reader = easyocr.Reader(['en'], gpu=True)
 
 # img = cv2.imread('SKY2339TARGET-5.jpg')
 imglist = []
@@ -41,8 +41,8 @@ for z in imglist:
     img = remove_noise(img)
     # cv2.imwrite('/path/' + name + '_fixed.jpg', img)
     # cv2.imwrite(z + ".jpg", img)
-    text = pytesseract.image_to_string(img)
-    # text = reader.readtext(img, detail=0, paragraph=True)
+    # text = pytesseract.image_to_string(img)
+    text = reader.readtext(img, detail=0, paragraph=True)
     df.loc[len(df.index)] = [z, text]
     print("Image: " + z)
     print(text)
